@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>徽州 · 富春山居 Bikepacking 搭子招募</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -13,17 +23,19 @@
     <style>
       :root {
         color-scheme: light;
-        --paper: #f7f1e6;
-        --surface: #fffaf0;
-        --ink: #1f2933;
-        --muted: #667085;
-        --line: #d8cdbb;
-        --mountain: #315f45;
-        --river: #2f6f8f;
-        --warning: #a43d2f;
-        --stone: #e8ddcb;
+        --fog: #e6eef0;
+        --ink: #0f1c1a;
+        --muted: #4a5c58;
+        --bamboo: #1f4a3a;
+        --river: #3a6b7c;
+        --amber: #c4783b;
+        --mist: #f3f7f8;
+        --line: #c5d4d6;
         --white: #ffffff;
-        --shadow: 0 16px 40px rgba(49, 57, 44, 0.09);
+        --shadow: 0 14px 36px rgba(15, 28, 26, 0.08);
+        --display: "LXGW WenKai", "PingFang SC", "Hiragino Sans GB", serif;
+        --body: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB",
+          "Microsoft YaHei", sans-serif;
       }
 
       * {
@@ -36,9 +48,8 @@
 
       body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-        background: var(--paper);
+        font-family: var(--body);
+        background: var(--fog);
         color: var(--ink);
         line-height: 1.65;
         font-size: 16px;
@@ -51,9 +62,17 @@
         pointer-events: none;
         content: "";
         background:
-          linear-gradient(rgba(255, 250, 240, 0.7) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 250, 240, 0.72) 1px, transparent 1px);
-        background-size: 28px 28px;
+          radial-gradient(
+            120% 80% at 10% -10%,
+            rgba(31, 74, 58, 0.12),
+            transparent 55%
+          ),
+          radial-gradient(
+            90% 70% at 100% 0%,
+            rgba(58, 107, 124, 0.14),
+            transparent 50%
+          ),
+          linear-gradient(180deg, #dfe9eb 0%, var(--fog) 38%, #e9f0f1 100%);
       }
 
       a {
@@ -62,65 +81,74 @@
 
       a:focus-visible,
       button:focus-visible {
-        outline: 3px solid rgba(47, 111, 143, 0.38);
+        outline: 3px solid rgba(58, 107, 124, 0.45);
         outline-offset: 4px;
       }
 
+      .ribbon {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        height: 8px;
+        transform-origin: left center;
+        background: linear-gradient(
+          90deg,
+          var(--bamboo) 0%,
+          #2d6a55 28%,
+          #356f6a 52%,
+          var(--river) 78%,
+          #5a8fa0 100%
+        );
+        animation: ribbon-in 900ms ease both;
+      }
+
+      @keyframes ribbon-in {
+        from {
+          transform: scaleX(0.15);
+          opacity: 0.4;
+        }
+        to {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+      }
+
       .wrap {
-        width: min(100%, 1120px);
+        width: min(100%, 1080px);
         margin: 0 auto;
         padding: 0 24px;
       }
 
       .hero {
-        position: relative;
+        padding: 48px 0 36px;
+      }
+
+      .hero-inner {
         display: grid;
-        align-items: center;
-        padding: 40px 0 34px;
-        overflow: hidden;
-        background: linear-gradient(180deg, rgba(255, 250, 240, 0.78), rgba(247, 241, 230, 0.98));
+        gap: 22px;
+        max-width: 40rem;
       }
 
-      .hero::after {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -1px;
-        height: 92px;
-        content: "";
-        background:
-          linear-gradient(175deg, transparent 0 42%, rgba(49, 95, 69, 0.14) 43% 47%, transparent 48%),
-          linear-gradient(188deg, transparent 0 52%, rgba(47, 111, 143, 0.15) 53% 57%, transparent 58%),
-          var(--paper);
-      }
-
-      .hero-grid {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        gap: 28px;
-      }
-
-      .route-label {
+      .eyebrow-pill {
         display: inline-flex;
         width: fit-content;
         align-items: center;
-        gap: 10px;
-        min-height: 36px;
+        gap: 8px;
+        min-height: 34px;
         padding: 6px 12px;
-        border: 1px solid rgba(49, 95, 69, 0.28);
-        border-radius: 999px;
-        background: rgba(255, 250, 240, 0.76);
-        color: var(--mountain);
+        border: 1px solid rgba(31, 74, 58, 0.28);
+        border-radius: 8px;
+        background: rgba(243, 247, 248, 0.78);
+        color: var(--bamboo);
         font-size: 0.88rem;
         font-weight: 700;
       }
 
-      .route-label::before {
+      .eyebrow-pill::before {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: var(--mountain);
+        background: var(--bamboo);
         content: "";
       }
 
@@ -132,27 +160,37 @@
       }
 
       h1 {
-        max-width: 11ch;
-        margin-bottom: 18px;
-        color: #17231d;
-        font-size: 3rem;
-        line-height: 0.98;
-        letter-spacing: 0;
+        margin-bottom: 14px;
+        font-family: var(--display);
+        font-size: clamp(2.4rem, 8vw, 3.6rem);
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: 0.02em;
+        color: var(--ink);
+      }
+
+      .brand-mark {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--bamboo);
+        font-family: var(--display);
+        font-size: clamp(1.05rem, 3.2vw, 1.25rem);
+        font-weight: 700;
+        letter-spacing: 0.08em;
       }
 
       .subtitle {
-        max-width: 720px;
-        margin-bottom: 24px;
-        color: #314136;
-        font-size: 1.08rem;
-        line-height: 1.72;
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.75;
       }
 
       .hero-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-top: 26px;
+        margin-top: 8px;
       }
 
       .button {
@@ -160,163 +198,25 @@
         align-items: center;
         justify-content: center;
         min-height: 46px;
-        padding: 10px 16px;
-        border: 1px solid var(--mountain);
+        padding: 10px 18px;
+        border: 1px solid var(--amber);
         border-radius: 8px;
-        background: var(--mountain);
+        background: var(--amber);
         color: var(--white);
         font-weight: 800;
         text-decoration: none;
-        transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+        transition: transform 180ms ease, filter 180ms ease;
       }
 
       .button.secondary {
-        background: rgba(255, 250, 240, 0.82);
-        color: var(--mountain);
+        border-color: rgba(31, 74, 58, 0.35);
+        background: rgba(243, 247, 248, 0.86);
+        color: var(--bamboo);
       }
 
       .button:hover {
-        transform: translateY(-1px);
-      }
-
-      .hero-map {
-        border: 1px solid rgba(216, 205, 187, 0.92);
-        border-radius: 8px;
-        background: rgba(255, 250, 240, 0.72);
-        box-shadow: var(--shadow);
-        overflow: hidden;
-      }
-
-      #route-map {
-        width: 100%;
-        height: 360px;
-        background: var(--stone);
-      }
-
-      .map-note {
-        margin: 0;
-        padding: 10px 12px 12px;
-        border-top: 1px solid var(--line);
-        background: rgba(255, 250, 240, 0.92);
-        color: var(--muted);
-        font-size: 0.86rem;
-      }
-
-      .route-tooltip {
-        border: 1px solid rgba(49, 95, 69, 0.2);
-        border-radius: 6px;
-        background: rgba(255, 250, 240, 0.94);
-        color: var(--ink);
-        box-shadow: 0 8px 18px rgba(31, 41, 51, 0.12);
-        font-size: 12px;
-        font-weight: 800;
-      }
-
-      .leaflet-container {
-        position: relative;
-        overflow: hidden;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-        outline: 0;
-        touch-action: pan-x pan-y;
-      }
-
-      .leaflet-pane,
-      .leaflet-tile,
-      .leaflet-marker-icon,
-      .leaflet-marker-shadow,
-      .leaflet-tile-container,
-      .leaflet-pane > svg,
-      .leaflet-pane > canvas,
-      .leaflet-zoom-box,
-      .leaflet-image-layer,
-      .leaflet-layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-
-      .leaflet-tile {
-        width: 256px;
-        height: 256px;
-        user-select: none;
-        -webkit-user-drag: none;
-      }
-
-      .leaflet-tile-container {
-        pointer-events: none;
-      }
-
-      .leaflet-tile-pane {
-        z-index: 200;
-      }
-
-      .leaflet-overlay-pane {
-        z-index: 400;
-      }
-
-      .leaflet-marker-pane {
-        z-index: 600;
-      }
-
-      .leaflet-tooltip-pane {
-        z-index: 650;
-      }
-
-      .leaflet-control-container {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-      }
-
-      .leaflet-top,
-      .leaflet-bottom {
-        position: absolute;
-        z-index: 1000;
-        pointer-events: none;
-      }
-
-      .leaflet-top {
-        top: 0;
-      }
-
-      .leaflet-bottom {
-        bottom: 0;
-      }
-
-      .leaflet-left {
-        left: 0;
-      }
-
-      .leaflet-right {
-        right: 0;
-      }
-
-      .leaflet-control {
-        position: relative;
-        z-index: 1000;
-        margin: 10px;
-        clear: both;
-        pointer-events: auto;
-      }
-
-      .leaflet-control-zoom a {
-        display: block;
-        width: 30px;
-        height: 30px;
-        border-bottom: 1px solid #ccc;
-        background: #fff;
-        color: #1f2933;
-        line-height: 30px;
-        text-align: center;
-        text-decoration: none;
-        font-weight: 800;
-      }
-
-      .leaflet-control-attribution {
-        padding: 2px 6px;
-        background: rgba(255, 255, 255, 0.82);
-        font-size: 11px;
+        transform: translateY(-2px);
+        filter: brightness(1.03);
       }
 
       main {
@@ -325,7 +225,7 @@
       }
 
       section {
-        padding: 48px 0;
+        padding: 44px 0;
       }
 
       .section-head {
@@ -337,21 +237,19 @@
       .eyebrow {
         color: var(--river);
         font-size: 0.82rem;
-        font-weight: 900;
-        letter-spacing: 0;
-        text-transform: uppercase;
+        font-weight: 800;
       }
 
       h2 {
         margin-bottom: 0;
-        color: #1a2b23;
-        font-size: 1.7rem;
-        line-height: 1.18;
-        letter-spacing: 0;
+        font-family: var(--display);
+        font-size: clamp(1.55rem, 4vw, 2rem);
+        line-height: 1.2;
+        color: var(--ink);
       }
 
       .lead {
-        max-width: 760px;
+        max-width: 720px;
         margin-bottom: 0;
         color: var(--muted);
       }
@@ -361,37 +259,127 @@
         gap: 14px;
       }
 
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--mist);
+        box-shadow: var(--shadow);
+      }
+
+      /* Prep timeline */
+      .timeline {
+        position: relative;
+        display: grid;
+        gap: 0;
+        padding-left: 4px;
+      }
+
+      .timeline::before {
+        position: absolute;
+        top: 12px;
+        bottom: 12px;
+        left: 19px;
+        width: 2px;
+        background: linear-gradient(var(--bamboo), var(--river));
+        content: "";
+      }
+
+      .tl-item {
+        position: relative;
+        display: grid;
+        gap: 6px;
+        padding: 16px 16px 16px 48px;
+        animation: tl-rise 700ms ease both;
+      }
+
+      .tl-item:nth-child(1) {
+        animation-delay: 40ms;
+      }
+      .tl-item:nth-child(2) {
+        animation-delay: 100ms;
+      }
+      .tl-item:nth-child(3) {
+        animation-delay: 160ms;
+      }
+      .tl-item:nth-child(4) {
+        animation-delay: 220ms;
+      }
+      .tl-item:nth-child(5) {
+        animation-delay: 280ms;
+      }
+
+      @keyframes tl-rise {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .tl-item::before {
+        position: absolute;
+        top: 22px;
+        left: 12px;
+        width: 14px;
+        height: 14px;
+        border: 3px solid var(--fog);
+        border-radius: 50%;
+        background: var(--bamboo);
+        box-shadow: 0 0 0 1px rgba(31, 74, 58, 0.35);
+        content: "";
+      }
+
+      .tl-item:last-child::before {
+        background: var(--amber);
+        box-shadow: 0 0 0 1px rgba(196, 120, 59, 0.4);
+      }
+
+      .tl-week {
+        color: var(--bamboo);
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .tl-item h3 {
+        margin-bottom: 2px;
+        font-size: 1.05rem;
+        line-height: 1.35;
+      }
+
+      .tl-item p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
       .snapshot-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .card {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--surface);
-        box-shadow: 0 10px 26px rgba(31, 41, 51, 0.045);
-      }
-
       .metric {
-        min-height: 142px;
+        min-height: 132px;
         padding: 18px;
       }
 
       .metric strong {
         display: block;
-        margin-bottom: 7px;
-        color: var(--mountain);
-        font-size: 2rem;
+        margin-bottom: 8px;
+        color: var(--bamboo);
+        font-size: 1.85rem;
         line-height: 1;
         font-variant-numeric: tabular-nums;
       }
 
       .metric span {
         color: var(--muted);
+        font-size: 0.94rem;
       }
 
-      .metric.warning strong {
-        color: var(--warning);
+      .metric.accent strong {
+        color: var(--amber);
       }
 
       .arc {
@@ -408,7 +396,7 @@
         left: 5px;
         width: 2px;
         border-radius: 999px;
-        background: linear-gradient(var(--mountain), var(--river));
+        background: linear-gradient(var(--bamboo), var(--river));
         content: "";
       }
 
@@ -423,15 +411,14 @@
         left: -16px;
         width: 12px;
         height: 12px;
-        border: 3px solid var(--paper);
+        border: 3px solid var(--fog);
         border-radius: 50%;
         background: var(--river);
-        box-shadow: 0 0 0 1px rgba(47, 111, 143, 0.34);
         content: "";
       }
 
       .arc-step:first-child::before {
-        background: var(--mountain);
+        background: var(--bamboo);
       }
 
       .arc-step h3 {
@@ -447,14 +434,55 @@
         color: var(--muted);
       }
 
+      .map-shell {
+        margin-top: 18px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--mist);
+        box-shadow: var(--shadow);
+      }
+
+      #route-map {
+        width: 100%;
+        height: 340px;
+        background: #d5e2e5;
+      }
+
+      .map-note {
+        margin: 0;
+        padding: 10px 12px 12px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .route-tooltip {
+        border: 1px solid rgba(31, 74, 58, 0.22);
+        border-radius: 6px;
+        background: rgba(243, 247, 248, 0.96);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
       .daily-grid {
         grid-template-columns: 1fr;
       }
 
       .day-card {
         display: grid;
-        min-height: 202px;
+        min-height: 190px;
         padding: 16px;
+        border-left: 4px solid var(--bamboo);
+      }
+
+      .day-card[data-phase="river"] {
+        border-left-color: var(--river);
+      }
+
+      .day-card[data-phase="flex"] {
+        border-left-color: var(--amber);
       }
 
       .day-top {
@@ -466,10 +494,9 @@
       }
 
       .day {
-        color: var(--warning);
+        color: var(--amber);
         font-size: 0.82rem;
         font-weight: 900;
-        letter-spacing: 0;
       }
 
       .tag {
@@ -477,9 +504,9 @@
         align-items: center;
         min-height: 28px;
         padding: 4px 9px;
-        border: 1px solid rgba(47, 111, 143, 0.24);
-        border-radius: 999px;
-        background: rgba(47, 111, 143, 0.08);
+        border: 1px solid rgba(58, 107, 124, 0.28);
+        border-radius: 8px;
+        background: rgba(58, 107, 124, 0.08);
         color: var(--river);
         font-size: 0.78rem;
         font-weight: 800;
@@ -488,8 +515,7 @@
 
       .day-card h3 {
         margin-bottom: 10px;
-        color: #1b2a22;
-        font-size: 1.1rem;
+        font-size: 1.08rem;
         line-height: 1.35;
       }
 
@@ -503,9 +529,9 @@
       .fact {
         min-height: 52px;
         padding: 8px 10px;
-        border: 1px solid rgba(216, 205, 187, 0.72);
+        border: 1px solid rgba(197, 212, 214, 0.9);
         border-radius: 8px;
-        background: rgba(247, 241, 230, 0.74);
+        background: rgba(230, 238, 240, 0.55);
       }
 
       .fact b {
@@ -517,6 +543,7 @@
       .fact span {
         color: var(--muted);
         font-size: 0.88rem;
+        font-variant-numeric: tabular-nums;
       }
 
       .split {
@@ -565,8 +592,8 @@
         align-items: center;
         justify-content: center;
         border-radius: 8px;
-        background: rgba(49, 95, 69, 0.11);
-        color: var(--mountain);
+        background: rgba(31, 74, 58, 0.1);
+        color: var(--bamboo);
         font-size: 0.76rem;
         font-weight: 900;
       }
@@ -584,18 +611,18 @@
         display: grid;
         gap: 18px;
         padding: 24px;
-        border-color: rgba(164, 61, 47, 0.26);
+        border-color: rgba(196, 120, 59, 0.35);
         background:
-          linear-gradient(135deg, rgba(164, 61, 47, 0.06), transparent 36%),
-          var(--surface);
+          linear-gradient(135deg, rgba(196, 120, 59, 0.08), transparent 40%),
+          var(--mist);
       }
 
       .contact-line {
         padding: 16px;
-        border: 1px dashed rgba(164, 61, 47, 0.55);
+        border: 1px dashed rgba(196, 120, 59, 0.55);
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.42);
-        color: var(--warning);
+        background: rgba(255, 255, 255, 0.45);
+        color: var(--amber);
         font-weight: 900;
       }
 
@@ -605,67 +632,20 @@
       }
 
       footer {
-        padding: 24px 0 40px;
+        padding: 28px 0 48px;
         color: var(--muted);
-        font-size: 0.92rem;
+        font-size: 0.9rem;
+      }
+
+      .leaflet-container {
+        font-family: var(--body);
+        outline: 0;
+        touch-action: pan-x pan-y;
       }
 
       @media (min-width: 760px) {
-        .hero {
-          padding: 52px 0 54px;
-        }
-
-        .hero-grid {
-          grid-template-columns: minmax(0, 0.96fr) minmax(330px, 0.74fr);
-          align-items: center;
-        }
-
         .snapshot-grid {
-          grid-template-columns: repeat(5, minmax(0, 1fr));
-        }
-
-        .metric {
-          min-height: 166px;
-        }
-
-        h1 {
-          font-size: 5.2rem;
-        }
-
-        h2 {
-          font-size: 2.15rem;
-        }
-
-        .subtitle {
-          font-size: 1.24rem;
-        }
-
-        .metric strong {
-          font-size: 2.55rem;
-        }
-
-        .arc {
           grid-template-columns: repeat(3, minmax(0, 1fr));
-          padding-left: 0;
-        }
-
-        .arc::before {
-          top: 50%;
-          right: 8%;
-          bottom: auto;
-          left: 8%;
-          width: auto;
-          height: 2px;
-        }
-
-        .arc-step {
-          min-height: 160px;
-          padding: 18px;
-        }
-
-        .arc-step::before {
-          top: -7px;
-          left: 22px;
         }
 
         .daily-grid {
@@ -673,24 +653,12 @@
         }
 
         .split {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .agreements {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: 1fr 1fr;
         }
       }
 
-      @media (min-width: 1040px) {
-        section {
-          padding: 64px 0;
-        }
-
+      @media (min-width: 980px) {
         .daily-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        .agreements {
           grid-template-columns: repeat(3, minmax(0, 1fr));
         }
       }
@@ -700,76 +668,109 @@
           scroll-behavior: auto;
         }
 
-        *,
-        *::before,
-        *::after {
-          transition-duration: 0.01ms !important;
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
+        .ribbon,
+        .tl-item,
+        .button {
+          animation: none !important;
+          transition: none !important;
         }
       }
     </style>
   </head>
   <body>
-    <header class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <span class="route-label">国庆 / 中秋 · 上海高铁逃离红绿灯</span>
-          <h1>徽州富春，找搭子</h1>
-          <p class="subtitle">
-            不想把假期浪费在上海出城红绿灯里，所以直接高铁 / 动车到安吉附近开骑。
-            11 天，从竹海、皖南山路、徽州外围村镇，一路顺到新安江和富春江。
-          </p>
-          <p class="subtitle">
-            想找一位靠谱搭子：能稳定百公里，喜欢路上的风景，能接受临时改线。
-            不特种兵，不刷景区，不拼谁更能虐，主打一个骑在风景里。
-          </p>
-          <div class="hero-actions" aria-label="页面导航">
-            <a class="button" href="#daily-plan">先看每天骑哪</a>
-            <a class="button secondary" href="#contact">看看能不能一起</a>
-          </div>
-        </div>
+    <div class="ribbon" aria-hidden="true"></div>
 
-        <div class="hero-map" aria-label="上海铁路接驳至安吉，骑行经皖南、新安江、富春江到杭州的 OSM 路线锚点图">
-          <div id="route-map" role="img" aria-label="OSM 底图上的 bikepacking 路线锚点图"></div>
-          <p class="map-note">
-            OSM 底图需要联网加载。线条是路线锚点连线，不是最终道路级 GPX；出发前还要按路况和住宿复核。
-          </p>
+    <header class="hero">
+      <div class="wrap hero-inner">
+        <span class="eyebrow-pill">8 月中旬起备骑 · 9 月开骑</span>
+        <div>
+          <span class="brand-mark">徽州 · 富春山居</span>
+          <h1>一起把山骑成水</h1>
+        </div>
+        <p class="subtitle">
+          上海高铁跳过红绿灯，从安吉竹海进皖南，绕徽州外围，再顺新安江、富春江收到杭州。
+          11 天，不拉练，不露营，不排队买票打卡——找一位能稳定百公里、愿意跟着风景走的搭子。
+        </p>
+        <div class="hero-actions" aria-label="页面导航">
+          <a class="button" href="#prep">看备骑时间线</a>
+          <a class="button secondary" href="#contact">对味就来聊</a>
         </div>
       </div>
     </header>
 
     <main>
+      <section id="prep">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="eyebrow">备骑主锚点</span>
+            <h2>8 月中旬开闸，给足三四周</h2>
+            <p class="lead">
+              约 8 月 15 日起全职备骑。首选 9 月上旬–中旬开骑；国庆只作备选，方便仍要请假的人。
+            </p>
+          </div>
+          <div class="card timeline">
+            <article class="tl-item">
+              <span class="tl-week">第 0 周 · 约 8/15</span>
+              <h3>锁定窗口，找对人</h3>
+              <p>定开骑窗；发出本页；筛 Day 1–3 可取消、能存车的住宿候选。</p>
+            </article>
+            <article class="tl-item">
+              <span class="tl-week">第 1 周</span>
+              <h3>车店保养与装包试骑</h3>
+              <p>胎、刹车、变速、链条一次搞定；空装包试骑，别拖到出发前一天。</p>
+            </article>
+            <article class="tl-item">
+              <span class="tl-week">第 2 周</span>
+              <h3>GPX 与关键订房</h3>
+              <p>复核 Day 1–10 线与保守终点；锁 Day 1–3 住宿；粗定出返高铁。</p>
+            </article>
+            <article class="tl-item">
+              <span class="tl-week">第 3 周</span>
+              <h3>搭子最终确认</h3>
+              <p>人对齐、天气与施工复查、装包试骑半天、离线地图双备份。</p>
+            </article>
+            <article class="tl-item">
+              <span class="tl-week">出发前 48h</span>
+              <h3>清单打勾，不再改大方向</h3>
+              <p>只允许因天气或施工做保守收口。完整清单在 Roadbook 里。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section id="snapshot">
         <div class="wrap">
           <div class="section-head">
-            <span class="eyebrow">先看重点</span>
-            <h2>这趟不是随便摇人</h2>
+            <span class="eyebrow">硬约束</span>
+            <h2>三秒看清这趟是什么</h2>
             <p class="lead">
-              先把丑话说前面：不从上海市区硬骑出城，不露营，不走烂路猎奇，
-              也不把宏村西递这种收费商业景区当主菜。我们是去骑风景，不是去排队。
+              不从上海市区硬骑出城，不露营，不拿细胎赌烂路，也不把宏村西递当主菜。
             </p>
           </div>
           <div class="grid snapshot-grid">
             <article class="card metric">
               <strong>11 天</strong>
-              <span>Day 0 到起点装车，Day 1-10 正式骑，Day 11 留给天气和腿。</span>
+              <span>Day 0 接驳装车，Day 1–10 正式骑，Day 11 机动缓冲。</span>
             </article>
             <article class="card metric">
-              <strong>900-1050</strong>
-              <span>全程大约 900-1050 km，不是散步，但也不是自虐挑战。</span>
+              <strong>850–1000</strong>
+              <span>全程大约 850–1000 km，认真但可控。</span>
             </article>
             <article class="card metric">
-              <strong>100 km</strong>
-              <span>每天 100 km 上下，前面有点硬，后面顺江慢慢松下来。</span>
+              <strong>~100 km</strong>
+              <span>日均百公里上下；前硬后柔，顺着江水降强度。</span>
             </article>
-            <article class="card metric warning">
+            <article class="card metric accent">
               <strong>不露营</strong>
-              <span>住民宿和客栈，能洗澡睡好就行。有特色当然更香。</span>
+              <span>住民宿客栈，能洗澡、充电、睡好。</span>
             </article>
             <article class="card metric">
               <strong>28C</strong>
-              <span>按 28C 公路车规划，柏油优先，不拿细胎去赌烂路。</span>
+              <span>公路车柏油优先，不走碎石林道猎奇。</span>
+            </article>
+            <article class="card metric">
+              <strong>铁路</strong>
+              <span>上海接驳进安吉一带，杭州返沪。</span>
             </article>
           </div>
         </div>
@@ -778,11 +779,10 @@
       <section id="route-arc">
         <div class="wrap">
           <div class="section-head">
-            <span class="eyebrow">路线气质</span>
+            <span class="eyebrow">路线弧线</span>
             <h2>前半程看山，后半程看水</h2>
             <p class="lead">
-              这条线最爽的地方，不在景区闸机后面，而在路上：竹海、山谷、村口、江边、老镇外沿。
-              人少一点，风景反而更近一点。
+              风景在路上：竹海、山谷、村口、江边、老镇外沿。不是景区闸机后面。
             </p>
           </div>
           <div class="arc">
@@ -792,24 +792,37 @@
             </article>
             <article class="card arc-step">
               <h3>安吉 -> 宁国 -> 青龙湾 / 储家滩</h3>
-              <p>竹海、丘陵、湖边弯道，开始有“假期真的来了”的感觉。</p>
+              <p>竹海、丘陵、湖边弯道，旅行感开始兑现。</p>
             </article>
             <article class="card arc-step">
               <h3>绩溪 / 歙县 -> 徽州外围</h3>
-              <p>徽州不一定要挤景区，外围村镇和山水公路已经很有味道。</p>
+              <p>不挤商业景区，外围村镇和山水公路已经够味。</p>
             </article>
             <article class="card arc-step">
               <h3>新安江 -> 建德 / 梅城</h3>
-              <p>从这里开始降噪，山慢慢退后，江面和老镇接管节奏。</p>
+              <p>山慢慢退后，江面和老镇接管节奏。</p>
             </article>
             <article class="card arc-step">
               <h3>桐庐 -> 富阳</h3>
-              <p>富春江这段就是舒服，适合慢一点、停一下、把衣服洗了。</p>
+              <p>富春江舒适段：慢一点、停一下、把衣服洗了。</p>
             </article>
             <article class="card arc-step">
               <h3>杭州 -> 上海</h3>
-              <p>最后收进杭州，不硬凹，能安全返沪就是完整闭环。</p>
+              <p>仪式感收尾，安全打包返沪就是完整闭环。</p>
             </article>
+          </div>
+          <div
+            class="map-shell"
+            aria-label="上海铁路接驳至安吉，骑行经皖南、新安江、富春江到杭州的 OSM 路线锚点图"
+          >
+            <div
+              id="route-map"
+              role="img"
+              aria-label="OSM 底图上的 bikepacking 路线锚点图"
+            ></div>
+            <p class="map-note">
+              OSM 底图需联网。线条是路线锚点连线，不是最终道路级 GPX；出发前按路况和住宿复核。
+            </p>
           </div>
         </div>
       </section>
@@ -817,117 +830,140 @@
       <section id="daily-plan">
         <div class="wrap">
           <div class="section-head">
-            <span class="eyebrow">每天怎么骑</span>
-            <h2>不是死磕路线，是带着 Plan B 出门</h2>
+            <span class="eyebrow">日程摘要</span>
+            <h2>带着 Plan B 出门</h2>
             <p class="lead">
-              国庆骑长途，最重要的是别上头。每天都有主线，也有保守收法；
-              天气、车流、住宿、腿感不对，就立刻换方案。
+              每天有主线，也有保守收法。天气、车流、住宿、腿感不对，就换方案。
             </p>
           </div>
           <div class="grid daily-grid">
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 0</span><span class="tag">接驳准备</span></div>
+            <article class="card day-card" data-phase="mountain">
+              <div class="day-top">
+                <span class="day">Day 0</span><span class="tag">接驳准备</span>
+              </div>
               <h3>上海 -> 安吉递铺 / 灵峰</h3>
-              <p>今天不逞强，先把人和车安顿好。装车、补给、调车，睡好比多骑 20 km 重要。</p>
+              <p>装车、补给、调车，睡好比多骑 20 km 重要。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>接驳</span></div>
                 <div class="fact"><b>住宿</b><span>递铺 / 灵峰</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 1</span><span class="tag">竹海热身</span></div>
+            <article class="card day-card" data-phase="mountain">
+              <div class="day-top">
+                <span class="day">Day 1</span><span class="tag">竹海热身</span>
+              </div>
               <h3>安吉递铺 / 灵峰 -> 宁国西津</h3>
-              <p>第一天先热起来，竹海和丘陵够看，但别一上来就把腿交出去。</p>
+              <p>第一天先热起来，别一上来就把腿交出去。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>90-105 km</span></div>
                 <div class="fact"><b>爬升</b><span>900-1300 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 2</span><span class="tag">湖景山路</span></div>
+            <article class="card day-card" data-phase="mountain">
+              <div class="day-top">
+                <span class="day">Day 2</span><span class="tag">湖景山路</span>
+              </div>
               <h3>宁国西津 -> 汀溪苏红 / 桃岭</h3>
-              <p>开始进入皖南山水有效区。风景有了，车流也会有，早出发很关键。</p>
+              <p>皖南山水有效区。风景有了，车流也会有，早出发。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>80-95 km</span></div>
                 <div class="fact"><b>爬升</b><span>1200-1500 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 3</span><span class="tag">关键山地</span></div>
+            <article class="card day-card" data-phase="mountain">
+              <div class="day-top">
+                <span class="day">Day 3</span><span class="tag">关键山地</span>
+              </div>
               <h3>汀溪苏红 / 桃岭 -> 绩溪华阳</h3>
-              <p>前半程硬菜。好天气走风景版，腿不对就走稳妥版，别用意志力硬赌。</p>
+              <p>前半程硬菜。腿不对就走稳妥版，别用意志力硬赌。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>75-95 km</span></div>
                 <div class="fact"><b>爬升</b><span>1300-1500 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 4</span><span class="tag">徽州过渡</span></div>
+            <article class="card day-card" data-phase="mountain">
+              <div class="day-top">
+                <span class="day">Day 4</span><span class="tag">徽州过渡</span>
+              </div>
               <h3>绩溪华阳 -> 歙县徽城 / 渔梁坝</h3>
-              <p>从山里骑进徽州气质。今天适合早点收，洗衣、吃饭、把身体拉回来。</p>
+              <p>骑进徽州气质。早点收，洗衣吃饭把身体拉回来。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>75-95 km</span></div>
                 <div class="fact"><b>爬升</b><span>700-1200 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 5</span><span class="tag">村镇山水</span></div>
+            <article class="card day-card" data-phase="mountain">
+              <div class="day-top">
+                <span class="day">Day 5</span><span class="tag">村镇山水</span>
+              </div>
               <h3>歙县徽城 -> 休宁齐云山镇</h3>
-              <p>这天主打“不买票也好看”。避开宏村西递人潮，把时间给田野、山谷和村口。</p>
+              <p>不买票也好看。时间留给田野、山谷和村口。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>70-90 km</span></div>
                 <div class="fact"><b>爬升</b><span>900-1300 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 6</span><span class="tag">山转水</span></div>
+            <article class="card day-card" data-phase="river">
+              <div class="day-top">
+                <span class="day">Day 6</span><span class="tag">山转水</span>
+              </div>
               <h3>休宁齐云山镇 -> 淳安汾口</h3>
-              <p>山慢慢变少，水开始出现。距离略长，但心理上会轻一点。</p>
+              <p>山变少，水出现。距离略长，心理上会轻一点。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>90-110 km</span></div>
                 <div class="fact"><b>爬升</b><span>800-1300 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 7</span><span class="tag">江景恢复</span></div>
+            <article class="card day-card" data-phase="river">
+              <div class="day-top">
+                <span class="day">Day 7</span><span class="tag">江景恢复</span>
+              </div>
               <h3>淳安汾口 -> 建德梅城</h3>
-              <p>终于进入恢复感。江边、老镇、热饭、洗衣，这天会很像旅行。</p>
+              <p>江边、老镇、热饭、洗衣，这天很像旅行。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>75-95 km</span></div>
                 <div class="fact"><b>爬升</b><span>500-900 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 8</span><span class="tag">富春核心</span></div>
+            <article class="card day-card" data-phase="river">
+              <div class="day-top">
+                <span class="day">Day 8</span><span class="tag">富春核心</span>
+              </div>
               <h3>建德梅城 -> 桐庐县城</h3>
-              <p>富春江舒适段上线。别赶路，多停几次，这天的风景值得慢一点。</p>
+              <p>富春江舒适段。别赶路，多停几次。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>75-95 km</span></div>
                 <div class="fact"><b>爬升</b><span>400-800 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 9</span><span class="tag">温和收尾</span></div>
+            <article class="card day-card" data-phase="river">
+              <div class="day-top">
+                <span class="day">Day 9</span><span class="tag">温和收尾</span>
+              </div>
               <h3>桐庐县城 -> 富阳富春 / 东洲</h3>
-              <p>后期就别卷了。江边骑、喝杯咖啡、早点到，体面收尾。</p>
+              <p>后期别卷。江边骑、咖啡、早点到。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>65-85 km</span></div>
                 <div class="fact"><b>爬升</b><span>300-700 m</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 10</span><span class="tag">仪式终点</span></div>
+            <article class="card day-card" data-phase="river">
+              <div class="day-top">
+                <span class="day">Day 10</span><span class="tag">仪式终点</span>
+              </div>
               <h3>富阳富春 / 东洲 -> 杭州六和塔外围</h3>
-              <p>最后一天不玩花活。骑到钱塘江边，有个终点感，然后安心打包返沪。</p>
+              <p>骑到钱塘江边，有个终点感，然后安心打包。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>50-75 km</span></div>
                 <div class="fact"><b>强度</b><span>低</span></div>
               </div>
             </article>
-            <article class="card day-card">
-              <div class="day-top"><span class="day">Day 11</span><span class="tag">机动缓冲</span></div>
+            <article class="card day-card" data-phase="flex">
+              <div class="day-top">
+                <span class="day">Day 11</span><span class="tag">机动缓冲</span>
+              </div>
               <h3>天气 / 体力 / 机械调整日</h3>
-              <p>给现实留一天。下雨、爆胎、累了、订房变动，都靠它兜底。</p>
+              <p>下雨、爆胎、累了、订房变动，都靠它兜底。</p>
               <div class="facts">
                 <div class="fact"><b>距离</b><span>灵活</span></div>
                 <div class="fact"><b>住宿</b><span>视情况</span></div>
@@ -941,30 +977,30 @@
         <div class="wrap">
           <div class="section-head">
             <span class="eyebrow">搭子筛选</span>
-            <h2>这趟路会自己筛掉不合适的人</h2>
+            <h2>这趟路会自己筛人</h2>
             <p class="lead">
-              说真的，长途搭子比路线还重要。合适的人一起看风景，不合适的人会比爬坡还消耗。
+              合适的人一起看风景；不合适的人比爬坡还消耗。
             </p>
           </div>
           <div class="grid split">
             <article class="card list-card">
               <h3>适合你，如果</h3>
               <ul>
-                <li>百公里日对你来说是认真但可控，不是人生第一次挑战。</li>
-                <li>你愿意早起避车流，也接受当天根据腿感和天气改线。</li>
-                <li>你骑公路车或同等效率车辆，能接受 28C 友好的铺装优先。</li>
-                <li>你能处理基础状况：补胎、掉链、补给、简单异响。</li>
-                <li>你更吃“路上突然很好看”的那一套，而不是景区排队打卡。</li>
+                <li>百公里日认真但可控，不是人生第一次硬挑战。</li>
+                <li>愿意早起避车流，也接受当天根据腿感和天气改线。</li>
+                <li>公路车或同等效率车辆，接受 28C 友好的铺装优先。</li>
+                <li>能处理基础状况：补胎、掉链、补给、简单异响。</li>
+                <li>更吃「路上突然很好看」，而不是景区排队打卡。</li>
               </ul>
             </article>
             <article class="card list-card">
               <h3>可能不适合，如果</h3>
               <ul>
-                <li>你想每天拉爆、刷均速、把旅行骑成训练营。</li>
-                <li>你不能接受国庆的不确定性：天气、车流、住宿、临时改线。</li>
-                <li>你每天必须住城市酒店，不能接受村镇民宿条件浮动。</li>
-                <li>你期待夜生活型旅行，或者觉得夜骑也没什么。</li>
-                <li>你主要想去热门景区打卡，不太在意路上的开放风景。</li>
+                <li>想每天拉爆、刷均速，把旅行骑成训练营。</li>
+                <li>不能接受临时改线、早起集合、或计划被天气打断。</li>
+                <li>每天必须住城市酒店，不能接受村镇民宿条件浮动。</li>
+                <li>期待夜生活型旅行，或者觉得夜骑也没什么。</li>
+                <li>主要想去热门景区打卡，不太在意路上的开放风景。</li>
               </ul>
             </article>
           </div>
@@ -975,35 +1011,51 @@
         <div class="wrap">
           <div class="section-head">
             <span class="eyebrow">出发前对齐</span>
-            <h2>先说清楚，路上就少内耗</h2>
-            <p class="lead">
-              这些不是“规矩很多”，而是为了让大家都舒服。长途最怕不说清楚，半路互相消耗。
-            </p>
+            <h2>先说清楚，路上少内耗</h2>
+            <p class="lead">这些不是规矩多，是为了大家都舒服。</p>
           </div>
           <div class="agreements">
             <article class="card agreement">
               <span class="code">AA</span>
-              <div><strong>费用 AA</strong><span>车票、住宿、吃饭、维修，怎么花怎么分，清清楚楚。</span></div>
+              <div>
+                <strong>费用 AA</strong
+                ><span>车票、住宿、吃饭、维修，怎么花怎么分。</span>
+              </div>
             </article>
             <article class="card agreement">
               <span class="code">住店</span>
-              <div><strong>不露营</strong><span>每天住店，能洗澡、充电、睡好觉，第二天才有状态。</span></div>
+              <div>
+                <strong>不露营</strong
+                ><span>每天住店，能洗澡、充电、睡好觉。</span>
+              </div>
             </article>
             <article class="card agreement">
               <span class="code">白天</span>
-              <div><strong>不计划夜骑</strong><span>不是不能吃苦，是没必要把风险留到晚上。</span></div>
+              <div>
+                <strong>不计划夜骑</strong
+                ><span>不是不能吃苦，是没必要把风险留到晚上。</span>
+              </div>
             </article>
             <article class="card agreement">
               <span class="code">安全</span>
-              <div><strong>安全优先</strong><span>下雨、施工、车流大、腿不对，直接降目标。</span></div>
+              <div>
+                <strong>安全优先</strong
+                ><span>下雨、施工、车流大、腿不对，直接降目标。</span>
+              </div>
             </article>
             <article class="card agreement">
               <span class="code">风景</span>
-              <div><strong>免费公路风景优先</strong><span>这趟的审美在路上，不在景区售票口。</span></div>
+              <div>
+                <strong>免费公路风景优先</strong
+                ><span>审美在路上，不在景区售票口。</span>
+              </div>
             </article>
             <article class="card agreement">
               <span class="code">调整</span>
-              <div><strong>接受临时改线</strong><span>Day 2-Day 3 和徽州段不硬刚，当天看现实说话。</span></div>
+              <div>
+                <strong>接受临时改线</strong
+                ><span>Day 2–3 和徽州段不硬刚，当天看现实说话。</span>
+              </div>
             </article>
           </div>
         </div>
@@ -1015,15 +1067,14 @@
             <span class="eyebrow">来不来</span>
             <h2>觉得对味，就来聊聊</h2>
             <p class="lead">
-              可以先说下你的长途经验、百公里体感、车和外胎、能不能接受 11 天住店路线。
-              对得上就一起细化 GPX，对不上也别勉强。
+              先说长途经验、百公里体感、车和外胎、能不能接受 11 天住店。
+              对得上就一起细化；对不上也别勉强。
             </p>
           </div>
           <div class="card contact-card">
             <div class="contact-line">联系方式：出发前由我补充。</div>
             <p class="notes">
-              出发前会统一复查高铁、住宿、Day 1-Day 3 路况、天气、施工和撤退点。
-              最终 GPX 临近出发再定，别拿现在这版硬冲。
+              8 月中旬起按备骑时间线推进。最终 GPX 临近出发再定，别拿现在这版硬冲。
             </p>
           </div>
         </div>
@@ -1032,9 +1083,10 @@
 
     <footer>
       <div class="wrap">
-        徽州 · 富春山居 Bikepacking 搭子招募。上海铁路接驳出发，杭州铁路返沪。
+        徽州 · 富春山居 Bikepacking。8 月中旬起备骑，9 月开骑；上海铁路接驳，杭州铁路返沪。
       </div>
     </footer>
+
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -1080,9 +1132,9 @@
           .map((stop) => stop.latlng);
 
         L.polyline(railPoints, {
-          color: "#a43d2f",
+          color: "#c4783b",
           weight: 3,
-          opacity: 0.78,
+          opacity: 0.85,
           dashArray: "8 8",
         })
           .bindTooltip("上海铁路接驳到安吉", {
@@ -1092,9 +1144,9 @@
           .addTo(map);
 
         L.polyline(rideLine, {
-          color: "#2f6f8f",
+          color: "#3a6b7c",
           weight: 5,
-          opacity: 0.88,
+          opacity: 0.9,
           lineJoin: "round",
         }).addTo(map);
 
@@ -1102,9 +1154,9 @@
           const isRail = stop.kind === "rail";
           const marker = L.circleMarker(stop.latlng, {
             radius: isRail ? 5 : 6,
-            color: isRail ? "#a43d2f" : "#315f45",
+            color: isRail ? "#c4783b" : "#1f4a3a",
             weight: 2,
-            fillColor: "#fffaf0",
+            fillColor: "#f3f7f8",
             fillOpacity: 1,
           }).addTo(map);
 
@@ -1126,7 +1178,7 @@
         }, 120);
       } else if (mapEl) {
         mapEl.innerHTML =
-          '<div style="display:flex;align-items:center;justify-content:center;height:340px;padding:24px;text-align:center;color:#667085">地图加载失败。请检查网络后刷新，或临近出发前用 GPX 截图替换这里。</div>';
+          '<div style="display:flex;align-items:center;justify-content:center;height:340px;padding:24px;text-align:center;color:#4a5c58">地图加载失败。请检查网络后刷新。</div>';
       }
     </script>
   </body>
